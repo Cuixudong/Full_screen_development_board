@@ -542,74 +542,74 @@ volatile uint8_t g_lcd_dir = 0;
 void main_task(void *pdata)
 {
     uint8_t selx=0;
-	float bat;
-	uint8_t percent;
-	uint8_t old_dir = g_lcd_dir;
+    float bat;
+    uint8_t percent;
+    uint8_t old_dir = g_lcd_dir;
     mui_init(1); 	//Main UI 初始化
     while(1)
     {
         selx=mui_touch_chk();
         system_task_return=0;//清退出标志
-		//LCD_Display_Dir(L2R_U2D);
+        //LCD_Display_Dir(L2R_U2D);
         switch(selx)
         {
-			case 0:	//电子图书
-				ebook_play();
-				break;
-			case 1:	//图片浏览
-				picviewer_play();
-				break;
-			case 2:	//USB连接
-				usb_play();
-				break;
-			case 3:	//APP界面
-				app_play();
-				break;
-			case 4:	//日历
-				calendar_play();
-				break;
-			case 5:	//系统设置
-				sysset_play();
-				break;
-			case 6:	//画板
-				paint_play();
-				break;
-			case 7:	//无线通信实验
-				wirelessmode=1;
-				wireless_play();
-				wirelessmode=0;
-				break;
-			case 8:	//记事本功能
-				notepad_play();
-				break;
+        case 0:	//电子图书
+            ebook_play();
+            break;
+        case 1:	//图片浏览
+            picviewer_play();
+            break;
+        case 2:	//USB连接
+            usb_play();
+            break;
+        case 3:	//APP界面
+            app_play();
+            break;
+        case 4:	//日历
+            calendar_play();
+            break;
+        case 5:	//系统设置
+            sysset_play();
+            break;
+        case 6:	//画板
+            paint_play();
+            break;
+        case 7:	//无线通信实验
+            wirelessmode=1;
+            wireless_play();
+            wirelessmode=0;
+            break;
+        case 8:	//记事本功能
+            notepad_play();
+            break;
         }
-		if(old_dir != g_lcd_dir)
-		{
-			switch(g_lcd_dir)
-			{
-				case 0:
-					LCD_Display_Dir(L2R_U2D);
-					break;
-				case 1:
-					LCD_Display_Dir(R2L_D2U);
-					break;
-				case 2:
-					LCD_Display_Dir(D2U_L2R);
-					break;
-				case 3:
-					LCD_Display_Dir(U2D_R2L);
-					break;
-			}
-			mui_init(0);
-			mui_load_icos();
-			old_dir = g_lcd_dir;
-		}
-		
-		Get_Battery_Message(&bat,&percent);//电量信息
-		POINT_COLOR = BLUE;
-		BACK_COLOR = GRAY;
-		LCD_ShowNum(lcddev.width - 80,20,percent,5,24);
-		
+        if(old_dir != g_lcd_dir)
+        {
+            switch(g_lcd_dir)
+            {
+            case 0:
+                LCD_Display_Dir(L2R_U2D);
+                break;
+            case 1:
+                LCD_Display_Dir(R2L_D2U);
+                break;
+            case 2:
+                LCD_Display_Dir(D2U_L2R);
+                break;
+            case 3:
+                LCD_Display_Dir(U2D_R2L);
+                break;
+            }
+            mui_init(0);
+            mui_load_icos();
+            old_dir = g_lcd_dir;
+        }
+
+        Get_Battery_Message(&bat,&percent);//电量信息
+        POINT_COLOR = BLUE;
+        BACK_COLOR = GRAY;
+        LCD_ShowNum(lcddev.width - 80,20,percent,5,24);
+
         if(selx<9)mui_load_icos();
         delay_ms(1000/OS_TICKS_PER_SEC);//延时一个时钟节拍
     }
